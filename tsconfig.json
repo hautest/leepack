@@ -3,12 +3,12 @@
     "target": "ES2022",
     "lib": ["ES2022"],
     "module": "NodeNext",
-    "rootDir": "src",
+    "rootDir": "bundler",
     "outDir": "dist",
     "types": ["node"],
     "strict": true,
     "noEmitOnError": true,
     "verbatimModuleSyntax": true
   },
-  "include": ["src/**/*.ts", "src/index.js"]
+  "include": ["bundler/**/*.ts"]
 }

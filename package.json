@@ -6,6 +6,7 @@
   "packageManager": "pnpm@11.22.0",
   "scripts": {
     "build": "tsc",
+    "bundling": "node bundler/index.ts",
     "start": "pnpm run build && node dist/index.js",
     "typecheck": "tsc --noEmit"
   },
