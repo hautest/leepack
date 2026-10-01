@@ -12,6 +12,7 @@
   },
   "devDependencies": {
     "@types/node": "^24.19.0",
+    "acorn": "^8.18.0",
     "typescript": "^7.0.2"
   }
 }

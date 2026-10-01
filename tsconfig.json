@@ -8,7 +8,8 @@
     "types": ["node"],
     "strict": true,
     "noEmitOnError": true,
-    "verbatimModuleSyntax": true
+    "verbatimModuleSyntax": true,
+    "rewriteRelativeImportExtensions": true
   },
   "include": ["bundler/**/*.ts"]
 }

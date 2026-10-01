@@ -1,4 +1,6 @@
 import { readFile } from "node:fs/promises";
+import { parse } from "acorn";
+import { getSourceType } from "./utils/getSourceType.ts";
 
 interface BundlingParams {
   entry: string;
@@ -6,8 +8,16 @@ interface BundlingParams {
 
 export const bundling = async ({ entry }: BundlingParams) => {
   const entryFile = await readFile(entry, "utf-8");
+  const sourceType = await getSourceType({
+    packageJsonPath: "package.json",
+  });
 
-  console.log(entryFile);
+  const ast = parse(entryFile, {
+    ecmaVersion: "latest",
+    sourceType,
+  });
+
+  console.log(ast);
 };
 
 bundling({
