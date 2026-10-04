@@ -2,7 +2,7 @@ import { getAst } from "./getAst.ts";
 import { resolve } from "node:path";
 import { getImportGraph } from "./getImportGraph.ts";
 import { createModuleMap } from "./createModuleMap.ts";
-import { readFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { getModuleBody } from "./getModuleBody.ts";
 import { getModuleExportParts } from "./getModuleExportParts.ts";
 import { createScopedModule } from "./createScopedModule.ts";
@@ -13,9 +13,11 @@ import { createModuleReExportCode } from "./createModuleReExportCode.ts";
 
 interface BundlingParams {
   entry: string;
+  /** bundle.js를 저장할 폴더. 생략하면 dist. */
+  output?: string;
 }
 
-export const bundling = async ({ entry }: BundlingParams) => {
+export const bundling = async ({ entry, output = "dist" }: BundlingParams) => {
   const ast = await getAst({ entry });
   const importGraph = await getImportGraph({
     ast,
@@ -70,8 +72,12 @@ export const bundling = async ({ entry }: BundlingParams) => {
     });
   }
 
-  // console.log(Object.values(moduleCodes).join("\n\n"));
-  console.log(moduleCodes);
+  const entryModuleName = moduleMap[resolve(entry)];
+  const bundleCode = `${Object.values(moduleCodes).join("\n\n")}\n\n${entryModuleName}();\n`;
+
+  await mkdir(output, { recursive: true });
+  await writeFile(resolve(output, "bundle.js"), bundleCode, "utf-8");
+
   return moduleCodes;
 };
 
